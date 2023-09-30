@@ -3,12 +3,15 @@ import { FiMoreHorizontal } from 'react-icons/fi';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import Messages from './Messages';
 import Input from './Input';
+import { useContext } from 'react';
+import { chatContext } from '../context/authContext';
 
 const Chat = () => {
+  const { data } = useContext(chatContext);
   return (
     <div className="chat">
       <div className="chatInfo">
-        <span>Ahmad</span>
+        <span>{data.user?.displayName}</span>
         <div className="chatIcons">
           <span>
             <BsCameraVideo />

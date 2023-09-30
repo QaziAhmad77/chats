@@ -4,7 +4,7 @@ import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import './style.scss';
 import { useContext } from 'react';
-import authContext from './context/authContext';
+import {authContext} from './context/authContext';
 
 function App() {
   const { currentUser } = useContext(authContext);

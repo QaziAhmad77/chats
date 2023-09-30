@@ -2,12 +2,7 @@ import Add from '../img/camera_avatar.jpg';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db, storage } from '../firebase';
 import { useState } from 'react';
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-} from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -23,9 +18,14 @@ export const Register = () => {
     const file = e.target[3].files[0];
     try {
       setErrMsg('');
-      console.log(displayName, email, password);
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      // Upload the new image to Cloud Storage
+      console.log(res.user, 'Response user');
+      // In summary, while both ref() and doc() can be used to create references, doc() is specifically designed for referencing Firestore documents within collections and is often used when you need to work with individual documents. ref() can be used for both documents and collections and is more flexible in that regard. The choice between the two depends on whether you're referencing a document or a collection and your preferred coding style.
+      // Reference to a collection
+      // const collectionRef = ref(db, 'users');
+      // Reference to a document
+      // const documentRef = ref(db, 'users/userId');
+
       const storageRef = ref(storage, `/Profile/${displayName}`);
       await uploadBytes(storageRef, file);
       // Get the download URL of the new image
@@ -42,30 +42,6 @@ export const Register = () => {
       });
       await setDoc(doc(db, 'userChats', res.user.uid), {});
       navigate('/login');
-
-      // Second Method to upload image
-      //   const storageRef = ref(storage, `/users/${displayName}`);
-      //   const uploadTask = uploadBytesResumable(storageRef, file);
-      //   uploadTask.on(
-      //     (err) => {
-      //       setErrMsg(err.message);
-      //     },
-      //     () => {
-      //       getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-      //         await updateProfile(res.user, {
-      //           displayName,
-      //           photoURL: downloadURL,
-      //         });
-      //         await setDoc(doc(db, 'users', res.user.uid), {
-      //           uid: res.user.uid,
-      //           displayName,
-      //           email,
-      //           photoURL: downloadURL,
-      //         });
-      //         await setDoc(doc(db, 'userChats', res.user.uid), {});
-      //       });
-      //     }
-      //   );
     } catch (err) {
       setErrMsg(err.message);
     }

@@ -13,13 +13,14 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from '../firebase';
-import authContext from '../context/authContext';
+import {authContext} from '../context/authContext';
 
 const Search = () => {
   const { currentUser } = useContext(authContext);
   const [username, setUsername] = useState('');
   const [user, setuser] = useState(null);
   const [err, setErr] = useState(false);
+
   const handleSearch = async () => {
     const q = query(
       collection(db, 'users'),
@@ -35,13 +36,14 @@ const Search = () => {
       setErr(true);
     }
   };
+
   const handleKey = (e) => {
     e.code === 'Enter' && handleSearch();
   };
+
   const handleSelect = async () => {
     // check whether the group (chats in firestore) exists, if not create
     //create user chats
-    console.log('hello');
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid
@@ -74,7 +76,9 @@ const Search = () => {
       console.log(err);
     }
     setuser(null);
+    setUsername('');
   };
+
   return (
     <div className="search">
       <div className="searchForm">
@@ -82,6 +86,7 @@ const Search = () => {
           type="text"
           placeholder="Find a user"
           onKeyDown={handleKey}
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>

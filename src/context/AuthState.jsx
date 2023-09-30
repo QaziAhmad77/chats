@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'; // Import useContext
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
-import AuthContext from './authContext';
+import { authContext } from './authContext';
 
 const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
@@ -16,9 +16,9 @@ const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser }}>
+    <authContext.Provider value={{ currentUser }}>
       {children}
-    </AuthContext.Provider>
+    </authContext.Provider>
   );
 };
 
