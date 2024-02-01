@@ -9,7 +9,6 @@ import { Link, useNavigate } from 'react-router-dom';
 export const Register = () => {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState('');
-  console.log(errMsg, 'THis is err');
   const handleSubmit = async (e) => {
     e.preventDefault();
     const displayName = e.target[0].value;
@@ -19,7 +18,6 @@ export const Register = () => {
     try {
       setErrMsg('');
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res.user, 'Response user');
       // In summary, while both ref() and doc() can be used to create references, doc() is specifically designed for referencing Firestore documents within collections and is often used when you need to work with individual documents. ref() can be used for both documents and collections and is more flexible in that regard. The choice between the two depends on whether you're referencing a document or a collection and your preferred coding style.
       // Reference to a collection
       // const collectionRef = ref(db, 'users');

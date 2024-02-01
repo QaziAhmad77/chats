@@ -13,7 +13,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from '../firebase';
-import {authContext} from '../context/authContext';
+import { authContext } from '../context/authContext';
 
 const Search = () => {
   const { currentUser } = useContext(authContext);
@@ -29,7 +29,6 @@ const Search = () => {
     try {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        console.log(doc.data(), 'data');
         setuser(doc.data());
       });
     } catch (err) {
@@ -39,6 +38,7 @@ const Search = () => {
 
   const handleKey = (e) => {
     e.code === 'Enter' && handleSearch();
+    // e.code === 'ArrowDown' && handleSearch();
   };
 
   const handleSelect = async () => {
